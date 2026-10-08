@@ -32,46 +32,20 @@ public class velha {
     return par;
   }
 
-  public static boolean jogGanha(char[][] mat, int[] par, char p){
-    int x = par[0], y = par[1];
-    boolean[] ganhou = new boolean[]{true, true, true, true};
-    int I = 0;
-    for (char i : mat[x]){
-      if (i != p){
-        ganhou[I] = false;
-        break;
-      }
+  public static boolean jogGanha(char[][] mat, ParI par, char p){
+    int x = par.first();
+    int y = par.second();
+    if (mat[x][0] == p && mat[x][1] == p && mat[x][2] == p) return true;
+
+    if (mat[0][y] == p && mat[1][y] == p && mat[2][y] == p) return true;
+
+    if (x == y) {
+        if (mat[0][0] == p && mat[1][1] == p && mat[2][2] == p) return true;
     }
-    if (ganhou[I]) return true;
-    I++;
-    for (int i = 0; i < 3; i ++){
-      if (mat[i][y] != p){
-        ganhou[I] = false;
-        break;
-      }
+
+    if (x + y == 2) {
+        if (mat[0][2] == p && mat[1][1] == p && mat[2][0] == p) return true;
     }
-    if (ganhou[I]) return true;
-    I++;
-    if (x == y){
-      for (int i = 0; i < 3; i ++){
-        if (mat[i][i] != p){
-          ganhou[I] = false;
-          break;
-        }
-      }
-    if (ganhou[I]) return true;
-    }
-    I++;
-    if (x+y == 2){
-      for (int i = 0; i < 3; i ++){
-        if (mat[i][2-i] != p){
-          ganhou[I] = false;
-          break;
-        }
-      }
-    if (ganhou[I]) return true;
-    }
-    I++;
     return false;
   }
 
