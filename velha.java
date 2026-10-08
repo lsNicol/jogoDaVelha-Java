@@ -28,11 +28,13 @@ public class velha {
     }
     return par;
   }
-  public static boolean jogGanha(char[][] mat, int x, int y){
+
+  public static boolean jogGanha(char[][] mat, int[] par, char p){
+    int x = par[0], y = par[1];
     boolean[] ganhou = new boolean[]{true, true, true, true};
     int I = 0;
     for (char i : mat[x]){
-      if (i != 'O'){
+      if (i != p){
         ganhou[I] = false;
         break;
       }
@@ -40,7 +42,7 @@ public class velha {
     if (ganhou[I]) return true;
     I++;
     for (int i = 0; i < 3; i ++){
-      if (mat[i][y] != 'O'){
+      if (mat[i][y] != p){
         ganhou[I] = false;
         break;
       }
@@ -49,7 +51,7 @@ public class velha {
     I++;
     if (x == y){
       for (int i = 0; i < 3; i ++){
-        if (mat[i][i] != 'O'){
+        if (mat[i][i] != p){
           ganhou[I] = false;
           break;
         }
@@ -59,7 +61,7 @@ public class velha {
     I++;
     if (x+y == 2){
       for (int i = 0; i < 3; i ++){
-        if (mat[i][2-i] != 'O'){
+        if (mat[i][2-i] != p){
           ganhou[I] = false;
           break;
         }
@@ -88,17 +90,22 @@ public class velha {
           x--; y--;
         }
         mat[x][y] = 'O';
-        if (jogGanha(mat, x, y)){
+        drawMat(mat);
+        int[] par = new int[]{x, y};
+        if (jogGanha(mat, par, 'O')){
           System.out.println("Jogador ganhou!");
           break;
         }
-        drawMat(mat);
         vezJog = false;
       }
       else{
         int[] par = IAjoga(mat);
         mat[par[0]][par[1]] = 'X';
         drawMat(mat);
+        if (jogGanha(mat, par, 'X')){
+          System.out.println("CPU ganhou!");
+          break;
+        }
         vezJog = true;
       }
     }
