@@ -1,6 +1,9 @@
 import java.util.*;
 public class velha {
- public static void drawMat(char[][] mat){
+  public record ParI(int first, int second){}
+
+  
+  public static void drawMat(char[][] mat){
     for (int i = 0; i < 3; i ++){
       for (int j = 0; j < 3; j ++){
         if (j != 0) System.out.printf(" | ");
@@ -16,12 +19,12 @@ public class velha {
     }
   }
 
-  public static int[] IAjoga(char[][]mat){
-    int[] par = new int[]{-1, -1};
+  public static ParI IAjoga(char[][]mat){
+    ParI par = new ParI(-1, -1);
     for (int i = 0; i < 3; i ++){
       for (int j = 0; j < 3; j ++){
         if (mat[i][j] == ' '){
-          par = new int[]{i, j};
+          par = new ParI(i, j);
           return par;
         }
       }
@@ -91,7 +94,7 @@ public class velha {
         }
         mat[x][y] = 'O';
         drawMat(mat);
-        int[] par = new int[]{x, y};
+        ParI par = new ParI(x, y);
         if (jogGanha(mat, par, 'O')){
           System.out.println("Jogador ganhou!");
           break;
@@ -99,8 +102,8 @@ public class velha {
         vezJog = false;
       }
       else{
-        int[] par = IAjoga(mat);
-        mat[par[0]][par[1]] = 'X';
+        ParI par = IAjoga(mat);
+        mat[par.first()][par.second()] = 'X';
         drawMat(mat);
         if (jogGanha(mat, par, 'X')){
           System.out.println("CPU ganhou!");
