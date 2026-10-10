@@ -20,16 +20,43 @@ public class velha {
   }
 
   public static ParI IAjoga(char[][]mat){
-    ParI par = new ParI(-1, -1);
+    ArrayList<ParI> lista = new ArrayList<>();
+    boolean centro = false;
     for (int i = 0; i < 3; i ++){
       for (int j = 0; j < 3; j ++){
         if (mat[i][j] == ' '){
-          par = new ParI(i, j);
-          return par;
+          lista.add(new ParI(i, j));
+          if (i == 1 && j == 1) centro = true;
         }
       }
     }
-    return par;
+    if (lista.isEmpty()) 
+      return null;
+    //Ia pode ganhar:
+    for (ParI par : lista){
+      int i = par.first();
+      int j = par.second();
+      mat[i][j] = 'X';
+      if (jogGanha(mat, par, 'X')){
+        return par;
+      }
+      mat[i][j] = ' ';
+    }
+
+    //Player pode ganhar:
+    for (ParI par : lista){
+      int i = par.first();
+      int j = par.second();
+      mat[i][j] = 'O';
+      if (jogGanha(mat, par, 'O')){
+        return par;
+      }
+      mat[i][j] = ' ';
+    }
+
+    //Default:
+    if (centro) return new ParI(1, 1);
+    return lista.get(0);
   }
 
   public static boolean jogGanha(char[][] mat, ParI par, char p){
