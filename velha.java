@@ -1,5 +1,6 @@
 import java.util.*;
 public class velha {
+  //par de inteiro
   public record ParI(int first, int second){}
 
   
